@@ -35,4 +35,5 @@ def calc_distance(TRIG, ECHO):
 
     return distance
 
-print("Distance: ", calc_distance(23, 24), "cm")
+print("Distance Sensor One: ", calc_distance(23, 24), "cm")
+print("Distance Sensor Two: ", calc_distance(17, 27), "cm")
