@@ -29,9 +29,6 @@ def calc_distance(TRIG, ECHO):
     return distance
 
 def LED_On():
-    GPIO.setup(20, GPIO.OUT)
-    GPIO.setup(21, GPIO.OUT)
-
     GPIO.output(20, True)
     GPIO.output(21, True)
 
@@ -41,6 +38,8 @@ def LED_Off():
 
 while True:
     GPIO.setmode(GPIO.BCM)
+    GPIO.setup(20, GPIO.OUT)
+    GPIO.setup(21, GPIO.OUT)
 
     Sensor_One = calc_distance(23, 24)
     Sensor_Two = calc_distance(17, 27)
