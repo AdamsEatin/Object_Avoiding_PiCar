@@ -1,12 +1,12 @@
 import RPi.GPIO as GPIO
 import time
 
-GPIO.setmode(GPIO.BCM)
-
 #TRIG = 23
 #ECHO = 24
 
 def calc_distance(TRIG, ECHO):
+    GPIO.setmode(GPIO.BCM)
+
     print("Distance Measuremenet in progress")
 
     GPIO.setup(TRIG, GPIO.OUT)
