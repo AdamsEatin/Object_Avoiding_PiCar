@@ -28,30 +28,21 @@ def calc_distance(TRIG, ECHO):
     distance = round(distance, 2)
     return distance
 
-def LED_On():
-    GPIO.output(20, True)
-    GPIO.output(21, True)
-
-def LED_Off():
-    GPIO.output(20, False)
-    GPIO.output(21, False)
-
 while True:
     GPIO.setmode(GPIO.BCM)
+
     GPIO.setup(20, GPIO.OUT)
     GPIO.setup(21, GPIO.OUT)
 
     Sensor_One = calc_distance(23, 24)
     Sensor_Two = calc_distance(17, 27)
-    LED_Switch = False
 
-    if Sensor_One <= 7.00 or Sensor_Two <= 7.00:
-        LED_Switch = True
-
-    if LED_Switch:
-        LED_On()
+    if Sensor_One <= 9.00 or Sensor_Two <= 9.00:
+        GPIO.output(20, True)
+        GPIO.output(21, True)
     else:
-        LED_Off()
+        GPIO.output(20, False)
+        GPIO.output(21, False)
 
     print("Distance Sensor One: ", calc_distance(23, 24), "cm")
     print("Distance Sensor Two: ", calc_distance(17, 27), "cm")
