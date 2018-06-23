@@ -7,14 +7,11 @@ import time
 def calc_distance(TRIG, ECHO):
     GPIO.setmode(GPIO.BCM)
 
-    print("Distance Measuremenet in progress")
-
     GPIO.setup(TRIG, GPIO.OUT)
     GPIO.setup(ECHO, GPIO.IN)
 
     GPIO.output(TRIG, False)
-    print("Waiting for sensor to settle")
-    time.sleep(2)
+    time.sleep(0.5)
 
     GPIO.output(TRIG, True)
     time.sleep(0.00001)
