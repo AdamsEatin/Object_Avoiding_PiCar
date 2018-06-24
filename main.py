@@ -22,27 +22,35 @@ def calc_distance(TRIG, ECHO):
         pulse_end = time.time()
 
     pulse_duration = pulse_end - pulse_start
-
     distance = pulse_duration * 17150
-
     distance = round(distance, 2)
     return distance
+
 
 while True:
     GPIO.setmode(GPIO.BCM)
 
-    GPIO.setup(20, GPIO.OUT)
-    GPIO.setup(21, GPIO.OUT)
+    L_TRIG = 6
+    L_ECHO = 13
+    R_TRIG = 20
+    R_ECHO = 21
+    LED1 = 19
+    LED2 = 26
 
-    Sensor_One = calc_distance(23, 24)
-    Sensor_Two = calc_distance(17, 27)
+    # Setting up LED Pins
+    GPIO.setup(LED1, GPIO.OUT)
+    GPIO.setup(LED2, GPIO.OUT)
+
+    #TODO : Rename to represent Front Left/Right, Back Left/Right Sensors
+    Sensor_One = calc_distance(L_TRIG, L_ECHO)
+    Sensor_Two = calc_distance(R_TRIG, R_ECHO)
 
     if Sensor_One <= 9.00 or Sensor_Two <= 9.00:
-        GPIO.output(20, True)
-        GPIO.output(21, True)
+        GPIO.output(LED1, True)
+        GPIO.output(LED2, True)
     else:
-        GPIO.output(20, False)
-        GPIO.output(21, False)
+        GPIO.output(LED1, False)
+        GPIO.output(LED2, False)
 
-    print("Distance Sensor One: ", calc_distance(23, 24), "cm")
-    print("Distance Sensor Two: ", calc_distance(17, 27), "cm")
+    print("Distance Sensor One: ", Sensor_One, "cm")
+    print("Distance Sensor Two: ", Sensor_Two, "cm")
