@@ -1,8 +1,22 @@
 import RPi.GPIO as GPIO
 import time
 
-#TRIG = 23
-#ECHO = 24
+#IN1 : Both Rightside wheels reverse
+#IN2 : Both Rightside wheels forward
+#IN3 : Both Leftside wheels reverse
+#IN4 : Both leftside wheels forward
+
+def init(LED1, LED2, IN1, IN2, IN3, IN4):
+    GPIO.setmode(GPIO.BCM)
+    # Setting up Pins
+    GPIO.setup(LED1, GPIO.OUT)
+    GPIO.setup(LED2, GPIO.OUT)
+
+    GPIO.setup(IN1, GPIO.OUT)
+    GPIO.setup(IN2, GPIO.OUT)
+    GPIO.setup(IN3, GPIO.OUT)
+    GPIO.setup(IN4, GPIO.OUT)
+
 
 def calc_distance(TRIG, ECHO):  
     GPIO.setup(TRIG, GPIO.OUT)
@@ -28,8 +42,6 @@ def calc_distance(TRIG, ECHO):
 
 """
 while True:
-    GPIO.setmode(GPIO.BCM)
-
     L_TRIG = 6
     L_ECHO = 13
     R_TRIG = 20
@@ -43,15 +55,7 @@ while True:
     IN3 = 27
     IN4 = 22
 
-    # Setting up Pins
-    GPIO.setup(LED1, GPIO.OUT)
-    GPIO.setup(LED2, GPIO.OUT)
-
-    GPIO.setup(IN1, GPIO.OUT)
-    GPIO.setup(IN2, GPIO.OUT)
-    GPIO.setup(IN3, GPIO.OUT)
-    GPIO.setup(IN4, GPIO.OUT)
-
+    init(LED1, LED2, IN1, IN2, IN3, IN4)
 
     GPIO.output(IN1, True)
     time.sleep(3)
@@ -73,34 +77,34 @@ while True:
 
     print("Distance Sensor One: ", Sensor_One, "cm")
     print("Distance Sensor Two: ", Sensor_Two, "cm")
-    """
-
-
-GPIO.setmode(GPIO.BCM)
-
+"""
 L_TRIG = 6
 L_ECHO = 13
 R_TRIG = 20
 R_ECHO = 21
     
-LED1 = 19
-LED2 = 26
-
 IN1 = 18
 IN2 = 17
 IN3 = 27
 IN4 = 22
 
-# Setting up Pins
-GPIO.setup(LED1, GPIO.OUT)
-GPIO.setup(LED2, GPIO.OUT)
+LED1 = 19
+LED2 = 26
 
-GPIO.setup(IN1, GPIO.OUT) 
-GPIO.setup(IN2, GPIO.OUT)
-GPIO.setup(IN3, GPIO.OUT)
-GPIO.setup(IN4, GPIO.OUT)
+init(LED1, LED2, IN1, IN2, IN3, IN4)
 
-
-GPIO.output(IN1, True)
-time.sleep(3)
-GPIO.output(IN1, False)
+while True:
+    Sensor_One = calc_distance(L_TRIG, L_ECHO)
+    Sensor_Two = calc_distance(R_TRIG, R_ECHO)
+    
+    if(Sensor_One > 9.00 and Sensor_Two > 9.00):
+        GPIO.output(IN1, False)
+        GPIO.output(IN2, True)
+        GPIO.output(IN3, False)
+        GPIO.output(IN4, True)
+    else:
+        while(Sensor_One <= 9.00 and Sensor_Two <= 9.00):
+            GPIO.output(IN1, True)
+            GPIO.output(IN2, False)
+            GPIO.output(IN3, False)
+            GPIO.output(IN4, True)
