@@ -93,10 +93,10 @@ LED2 = 26
 
 init(LED1, LED2, IN1, IN2, IN3, IN4)
 
-timeout = time.time() + 30
+timeout = time.time() + 10
 
 while True:
-    
+
     if time.time() > timeout:
         break
     
