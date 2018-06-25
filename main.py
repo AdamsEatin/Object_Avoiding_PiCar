@@ -23,7 +23,7 @@ def calc_distance(TRIG, ECHO):
     GPIO.setup(ECHO, GPIO.IN)
 
     GPIO.output(TRIG, False)
-    time.sleep(0.2)
+    time.sleep(0.1)
 
     GPIO.output(TRIG, True)
     time.sleep(0.00001)
@@ -93,7 +93,13 @@ LED2 = 26
 
 init(LED1, LED2, IN1, IN2, IN3, IN4)
 
+timeout = time.time() + 30
+
 while True:
+    
+    if time.time() > timeout:
+        break
+    
     Sensor_One = calc_distance(L_TRIG, L_ECHO)
     Sensor_Two = calc_distance(R_TRIG, R_ECHO)
     
