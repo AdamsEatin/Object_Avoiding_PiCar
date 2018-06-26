@@ -8,7 +8,7 @@ import time
 
 def init(LED1, LED2, IN1, IN2, IN3, IN4):
     GPIO.setmode(GPIO.BCM)
-    
+
     # Setting up Pins
     GPIO.setup(LED1, GPIO.OUT)
     GPIO.setup(LED2, GPIO.OUT)
@@ -87,24 +87,17 @@ LED2 = 26
 
 init(LED1, LED2, IN1, IN2, IN3, IN4)
 
-timeout = time.time() + 10
-
 while True:
+    for x in range(6):
+        average_distance = 0
+        Sensor_One = calc_distance(L_TRIG, L_ECHO)
+        Sensor_Two = calc_distance(R_TRIG, R_ECHO)
 
-    if time.time() > timeout:
-        break
+        Sensor_One_Dist = round(Sensor_One, 2)
+        Sensor_Two_Dist = round(Sensor_Two, 2)
+
+        average_distance += Sensor_One_Dist
+        average_distance += Sensor_Two_Dist
     
-    Sensor_One = calc_distance(L_TRIG, L_ECHO)
-    Sensor_Two = calc_distance(R_TRIG, R_ECHO)
-    
-    if(Sensor_One > 9.00 and Sensor_Two > 9.00):
-        GPIO.output(IN1, False)
-        GPIO.output(IN2, True)
-        GPIO.output(IN3, False)
-        GPIO.output(IN4, True)
-    else:
-        while(Sensor_One <= 9.00 and Sensor_Two <= 9.00):
-            GPIO.output(IN1, True)
-            GPIO.output(IN2, False)
-            GPIO.output(IN3, False)
-            GPIO.output(IN4, True)
+    average_distance = average_distance/6
+    print("Average Distance: ",average_distance,"cm") 
