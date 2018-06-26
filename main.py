@@ -39,7 +39,7 @@ def calc_distance(TRIG, ECHO):
     GPIO.setup(ECHO, GPIO.IN)
 
     GPIO.output(TRIG, False)
-    time.sleep(0.2)
+    time.sleep(0.1)
 
     GPIO.output(TRIG, True)
     time.sleep(0.00001)
@@ -98,7 +98,7 @@ def LEDs_Off():
 def start():
     while True:
         LEDs_On()
-        for x in range(4):
+        for x in range(6):
             average_distance = 0
             Sensor_One = calc_distance(L_TRIG, L_ECHO)
             Sensor_Two = calc_distance(R_TRIG, R_ECHO)
@@ -106,7 +106,7 @@ def start():
             average_distance += Sensor_One
             average_distance += Sensor_Two
 
-        average_distance = average_distance/4
+        average_distance = average_distance/6
         print("Average Distance: ",average_distance,"cm")
 
         if average_distance < 5:
