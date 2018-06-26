@@ -41,35 +41,43 @@ def calc_distance(TRIG, ECHO):
     distance = round(distance, 2)
     return distance
 
-def stop():
+def stop(IN1, IN2, IN3, IN4):
     GPIO.output(IN1, False)
     GPIO.output(IN2, False)
     GPIO.output(IN3, False)
     GPIO.output(IN4, False)
 
-def forward():
+def forward(IN1, IN2, IN3, IN4):
     GPIO.output(IN1, False)
     GPIO.output(IN2, True)
     GPIO.output(IN3, False)
     GPIO.output(IN4, True)
 
-def reverse():
+def reverse(IN1, IN2, IN3, IN4):
     GPIO.output(IN1, True)
     GPIO.output(IN2, False)
     GPIO.output(IN3, True)
     GPIO.output(IN4, False)
 
-def left():
+def left(IN1, IN2, IN3, IN4):
     GPIO.output(IN1, False)
     GPIO.output(IN2, True)
     GPIO.output(IN3, True)
     GPIO.output(IN4, False)
 
-def right():
+def right(IN1, IN2, IN3, IN4):
     GPIO.output(IN1, True)
     GPIO.output(IN2, False)
     GPIO.output(IN3, False)
     GPIO.output(IN4, True)
+
+def LEDs_On(LED1, LED2):
+    GPIO.output(LED1, True)
+    GPIO.output(LED2, True)
+
+def LEDs_Off(LED1, LED2):
+    GPIO.output(LED1, False)
+    GPIO.output(LED2, False)
 
 
 L_TRIG = 6
@@ -88,6 +96,7 @@ LED2 = 26
 init(LED1, LED2, IN1, IN2, IN3, IN4)
 
 while True:
+    LEDs_On()
     for x in range(6):
         average_distance = 0
         Sensor_One = calc_distance(L_TRIG, L_ECHO)
@@ -100,4 +109,26 @@ while True:
         average_distance += Sensor_Two_Dist
     
     average_distance = average_distance/6
-    print("Average Distance: ",average_distance,"cm") 
+    print("Average Distance: ",average_distance,"cm")
+
+    if average_distance < 10:
+        stop()
+        time.sleep(1)
+        reverse()
+        time.sleep(2)
+
+        stop()
+        time.sleep(0.5)
+        
+        right()
+        time.sleep(1)
+        stop()
+        time.sleep(1)
+
+    elif(average_distance < 5)
+        stop()
+        LEDs_Off()
+        break
+
+    else:
+        forward()
