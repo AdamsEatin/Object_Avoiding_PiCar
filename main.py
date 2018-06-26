@@ -6,7 +6,21 @@ import time
 #IN3 : Both Leftside wheels reverse
 #IN4 : Both leftside wheels forward
 
-def init(LED1, LED2, IN1, IN2, IN3, IN4):
+L_TRIG = 6
+L_ECHO = 13
+R_TRIG = 20
+R_ECHO = 21
+    
+IN1 = 18
+IN2 = 17
+IN3 = 27
+IN4 = 22
+
+LED1 = 19
+LED2 = 26
+
+
+def init():
     GPIO.setmode(GPIO.BCM)
 
     # Setting up Pins
@@ -41,59 +55,46 @@ def calc_distance(TRIG, ECHO):
     distance = round(distance, 2)
     return distance
 
-def stop(IN1, IN2, IN3, IN4):
+def stop():
     GPIO.output(IN1, False)
     GPIO.output(IN2, False)
     GPIO.output(IN3, False)
     GPIO.output(IN4, False)
 
-def forward(IN1, IN2, IN3, IN4):
+def forward():
     GPIO.output(IN1, False)
     GPIO.output(IN2, True)
     GPIO.output(IN3, False)
     GPIO.output(IN4, True)
 
-def reverse(IN1, IN2, IN3, IN4):
+def reverse():
     GPIO.output(IN1, True)
     GPIO.output(IN2, False)
     GPIO.output(IN3, True)
     GPIO.output(IN4, False)
 
-def left(IN1, IN2, IN3, IN4):
+def left():
     GPIO.output(IN1, False)
     GPIO.output(IN2, True)
     GPIO.output(IN3, True)
     GPIO.output(IN4, False)
 
-def right(IN1, IN2, IN3, IN4):
+def right():
     GPIO.output(IN1, True)
     GPIO.output(IN2, False)
     GPIO.output(IN3, False)
     GPIO.output(IN4, True)
 
-def LEDs_On(LED1, LED2):
+def LEDs_On():
     GPIO.output(LED1, True)
     GPIO.output(LED2, True)
 
-def LEDs_Off(LED1, LED2):
+def LEDs_Off():
     GPIO.output(LED1, False)
     GPIO.output(LED2, False)
 
 
-L_TRIG = 6
-L_ECHO = 13
-R_TRIG = 20
-R_ECHO = 21
-    
-IN1 = 18
-IN2 = 17
-IN3 = 27
-IN4 = 22
-
-LED1 = 19
-LED2 = 26
-
-init(LED1, LED2, IN1, IN2, IN3, IN4)
+init()
 
 while True:
     LEDs_On()
@@ -125,7 +126,7 @@ while True:
         stop()
         time.sleep(1)
 
-    elif(average_distance < 5)
+    elif(average_distance < 5):
         stop()
         LEDs_Off()
         break
