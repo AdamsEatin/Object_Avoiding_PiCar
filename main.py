@@ -6,7 +6,10 @@ import time
 #IN3 : Both Leftside wheels reverse
 #IN4 : Both leftside wheels forward
 
-
+L_TRIG = 6
+L_ECHO = 13
+R_TRIG = 20
+R_ECHO = 21
     
 IN1 = 18
 IN2 = 17
@@ -35,7 +38,7 @@ def calc_distance(TRIG, ECHO):
     GPIO.setup(ECHO, GPIO.IN)
 
     GPIO.output(TRIG, False)
-    time.sleep(0.1)
+    time.sleep(0.2)
 
     GPIO.output(TRIG, True)
     time.sleep(0.00001)
@@ -91,47 +94,41 @@ def LEDs_Off():
     GPIO.output(LED2, False)
 
 
+def start():
+    while True:
+        LEDs_On()
+        for x in range(4):
+            average_distance = 0
+            Sensor_One = calc_distance(L_TRIG, L_ECHO)
+            Sensor_Two = calc_distance(R_TRIG, R_ECHO)
+
+            average_distance += Sensor_One
+            average_distance += Sensor_Two
+
+        average_distance = average_distance/4
+        print("Average Distance: ",average_distance,"cm")
+
+        if average_distance < 10:
+            stop()
+            time.sleep(0.5)
+            reverse()
+            time.sleep(2)
+
+            stop()
+            time.sleep(0.5)
+
+            right()
+            time.sleep()
+            stop()
+            time.sleep(1)
+
+        elif average_distance < 5:
+            return
+
+        else:
+            forward()
 init()
+start()
 
-L_TRIG = 6
-L_ECHO = 13
-R_TRIG = 20
-R_ECHO = 21
-
-while True:
-    LEDs_On()
-    for x in range(6):
-        average_distance = 0
-        Sensor_One = calc_distance(L_TRIG, L_ECHO)
-        Sensor_Two = calc_distance(R_TRIG, R_ECHO)
-
-        Sensor_One_Dist = round(Sensor_One, 2)
-        Sensor_Two_Dist = round(Sensor_Two, 2)
-
-        average_distance += Sensor_One_Dist
-        average_distance += Sensor_Two_Dist
-    
-    average_distance = average_distance/6
-    print("Average Distance: ",average_distance,"cm")
-
-    if average_distance < 10:
-        stop()
-        time.sleep(1)
-        reverse()
-        time.sleep(2)
-
-        stop()
-        time.sleep(0.5)
-        
-        right()
-        time.sleep(1)
-        stop()
-        time.sleep(1)
-
-    elif(average_distance < 5):
-        stop()
-        LEDs_Off()
-        break
-
-    else:
-        forward()
+LEDs_Off()
+stop()
