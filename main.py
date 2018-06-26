@@ -98,33 +98,33 @@ def LEDs_Off():
 def start():
     while True:
         LEDs_On()
-        for x in range(6):
+        for x in range(5):
             average_distance = 0
             Sensor_One = calc_distance(L_TRIG, L_ECHO)
-            Sensor_Two = calc_distance(R_TRIG, R_ECHO)
+            #Sensor_Two = calc_distance(R_TRIG, R_ECHO)
 
             average_distance += Sensor_One
-            average_distance += Sensor_Two
+            #average_distance += Sensor_Two
 
-        average_distance = average_distance/6
+        average_distance = average_distance/5
         print("Average Distance: ",average_distance,"cm")
 
         if average_distance < 5:
             return
 
-        elif average_distance > 5 and average_distance < 10: 
+        elif average_distance > 5 and average_distance < 25: 
             stop()
-            time.sleep(0.5)
+            time.sleep(0.2)
             reverse()
             time.sleep(2)
 
             stop()
-            time.sleep(0.5)
+            time.sleep(0.2)
 
             right()
-            time.sleep(0.5)
+            time.sleep(1.5)
             stop()
-            time.sleep(1)
+            time.sleep(0.2)
             
         else:
             forward()
