@@ -6,10 +6,7 @@ import time
 #IN3 : Both Leftside wheels reverse
 #IN4 : Both leftside wheels forward
 
-L_TRIG = 6
-L_ECHO = 13
-R_TRIG = 20
-R_ECHO = 21
+
     
 IN1 = 18
 IN2 = 17
@@ -95,6 +92,11 @@ def LEDs_Off():
 
 
 init()
+
+L_TRIG = 6
+L_ECHO = 13
+R_TRIG = 20
+R_ECHO = 21
 
 while True:
     LEDs_On()
