@@ -113,7 +113,7 @@ def start():
         if average_distance < 5:
             return
 
-        elif average_distance > 5 and average_distance < 25: 
+        elif average_distance > 5 and average_distance < 20: 
             stop()
             time.sleep(0.2)
             reverse()
