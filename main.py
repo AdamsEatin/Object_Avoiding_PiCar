@@ -109,7 +109,10 @@ def start():
         average_distance = average_distance/4
         print("Average Distance: ",average_distance,"cm")
 
-        if average_distance < 10:
+        if average_distance < 5:
+            return
+
+        elif average_distance > 5 and average_distance < 10: 
             stop()
             time.sleep(0.5)
             reverse()
@@ -119,13 +122,10 @@ def start():
             time.sleep(0.5)
 
             right()
-            time.sleep()
+            time.sleep(0.5)
             stop()
             time.sleep(1)
-
-        elif average_distance < 5:
-            return
-
+            
         else:
             forward()
 
