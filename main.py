@@ -11,10 +11,10 @@ def start():
         curr_distance = CTRL.calc_front_distance()
         print(curr_distance,"cm")
 
-        if curr_distance < 5:
+        if curr_distance < 8:
             return
 
-        elif curr_distance > 5 and curr_distance < 20: 
+        elif curr_distance > 8 and curr_distance < 20: 
             CTRL.stop()
             time.sleep(0.2)
             CTRL.reverse()
