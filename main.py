@@ -22,6 +22,7 @@ LED2 = 26
 
 def init():
     GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
 
     # Setting up Pins
     GPIO.setup(LED1, GPIO.OUT)
@@ -127,6 +128,7 @@ def start():
 
         else:
             forward()
+
 init()
 start()
 
