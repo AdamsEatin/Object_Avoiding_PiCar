@@ -8,50 +8,67 @@ import time
 #IN3 : Both Leftside wheels reverse
 #IN4 : Both leftside wheels forward
 
-F_TRIG = 19
-F_ECHO = 26
-    
+F_R_TRIG = 20
+F_R_ECHO = 21
+F_L_TRIG = 19
+F_L_ECHO = 26
+F_LED1 = 0
+F_LED2 = 0
+
+B_R_TRIG = 0
+B_R_ECHO = 0
+B_L_TRIG = 0
+B_L_ECHO = 0
+B_LED1 = 0
+B_LED2 = 0
+
 IN1 = 18
 IN2 = 17
 IN3 = 27
 IN4 = 22
 
-L_LED1 = 6
-L_LED2 = 13
-R_LED1 = 20 
-R_LED2 = 21
 
+# Setup Pins for later use
 def init():
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
 
-    # Setting up Pins
-    GPIO.setup(L_LED1, GPIO.OUT)
-    GPIO.setup(L_LED2, GPIO.OUT)
-    GPIO.setup(R_LED1, GPIO.OUT)
-    GPIO.setup(R_LED2, GPIO.OUT)
+    # Setting up Front Board
+    GPIO.setup(F_R_TRIG, GPIO.OUT)
+    GPIO.setup(F_R_ECHO, GPIO.IN)
+    GPIO.setup(F_L_TRIG, GPIO.OUT)
+    GPIO.setup(F_L_ECHO, GPIO.IN)
+    GPIO.setup(F_LED1, GPIO.OUT)
+    GPIO.setup(F_LED2, GPIO.OUT)
 
+    # Setting up Back Board
+    GPIO.setup(B_R_TRIG, GPIO.OUT)
+    GPIO.setup(B_R_ECHO, GPIO.IN)
+    GPIO.setup(B_L_TRIG, GPIO.OUT)
+    GPIO.setup(B_L_ECHO, GPIO.IN)
+    GPIO.setup(B_LED1, GPIO.OUT)
+    GPIO.setup(B_LED2, GPIO.OUT)
+
+    # Setting up Motor Controls
     GPIO.setup(IN1, GPIO.OUT)
     GPIO.setup(IN2, GPIO.OUT)
     GPIO.setup(IN3, GPIO.OUT)
     GPIO.setup(IN4, GPIO.OUT)
 
 
-def calc_front_distance():  
-    GPIO.setup(F_TRIG, GPIO.OUT)
-    GPIO.setup(F_ECHO, GPIO.IN)
+# Distance Sensor related functions
+def calc_distance(TRIG, ECHO):
+    GPIO.output(TRIG, False)
+    time.sleep(0.2)
 
-    GPIO.output(F_TRIG, False)
-    time.sleep(0.1)
-
-    GPIO.output(F_TRIG, True)
+    GPIO.output(TRIG, True)
     time.sleep(0.00001)
-    GPIO.output(F_TRIG, False)
+    GPIO.output(TRIG, False)
 
-    while GPIO.input(F_ECHO) == 0:
+    while GPIO.input(ECHO) == 0:
         pulse_start = time.time()
 
-    while GPIO.input(F_ECHO) == 1:
+    while GPIO.input(ECHO) == 1:
         pulse_end = time.time()
 
     pulse_duration = pulse_end - pulse_start
@@ -59,44 +76,76 @@ def calc_front_distance():
     distance = round(distance, 2)
     return distance
 
-def stop():
+def front_distance():
+    left_dist = calc_distance(F_L_TRIG, F_L_ECHO)
+    right_dist = calc_distance(F_R_TRIG, F_R_ECHO)
+    average_dist = (left_dist + right_dist) / 2
+    return average_dist
+
+def back_distance():
+    left_dist = calc_distance(B_L_TRIG, B_L_ECHO)
+    right_dist = calc_distance(B_R_TRIG, B_R_ECHO)
+    average_dist = (left_dist + right_dist) / 2
+    return average_dist
+
+
+# Motor Control functions
+def motor_stop():
     GPIO.output(IN1, False)
     GPIO.output(IN2, False)
     GPIO.output(IN3, False)
     GPIO.output(IN4, False)
 
-def forward():
+def motor_forward():
     GPIO.output(IN1, False)
     GPIO.output(IN2, True)
     GPIO.output(IN3, False)
     GPIO.output(IN4, True)
 
-def reverse():
+def motor_reverse():
     GPIO.output(IN1, True)
     GPIO.output(IN2, False)
     GPIO.output(IN3, True)
     GPIO.output(IN4, False)
 
-def left():
+def motor_left():
     GPIO.output(IN1, False)
     GPIO.output(IN2, True)
     GPIO.output(IN3, True)
     GPIO.output(IN4, False)
 
-def right():
+def motor_right():
     GPIO.output(IN1, True)
     GPIO.output(IN2, False)
     GPIO.output(IN3, False)
     GPIO.output(IN4, True)
 
-def LEDs_On():
-    GPIO.output(L_LED1, True)
-    GPIO.output(L_LED2, True)
-    GPIO.output(R_LED1, True)
-    GPIO.output(R_LED2, True)
 
-def LEDs_Off():
-    GPIO.output(L_LED1, False)
-    GPIO.output(L_LED2, False)
-    GPIO.output(R_LED1, False)
-    GPIO.output(R_LED2, False )
+# LED Related Functions
+def LED_all_on():
+    GPIO.output(F_LED1, True)
+    GPIO.output(F_LED2, True)
+    GPIO.output(B_LED1, True)
+    GPIO.output(B_LED2, True)
+
+def LED_all_off():
+    GPIO.output(F_LED1, False)
+    GPIO.output(F_LED2, False)
+    GPIO.output(B_LED1, False)
+    GPIO.output(B_LED2, False)
+
+def LED_front_on():
+    GPIO.output(F_LED1, True)
+    GPIO.output(F_LED2, True)
+
+def LED_front_off():
+    GPIO.output(F_LED1, False)
+    GPIO.output(F_LED2, False)
+
+def LED_back_on():
+    GPIO.output(B_LED1, True)
+    GPIO.output(B_LED2, True)
+
+def LED_back_off():
+    GPIO.output(B_LED1, False)
+    GPIO.output(B_LED2, False)
