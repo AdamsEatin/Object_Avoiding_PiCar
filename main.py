@@ -15,6 +15,8 @@ def start():
             return
 
         elif curr_distance > 8 and curr_distance < 20: 
+            CTRL.LED_all_on()
+            """
             CTRL.motor_stop()
             time.sleep(0.2)
             CTRL.motor_reverse()
@@ -27,9 +29,10 @@ def start():
             time.sleep(2.0)
             CTRL.motor_stop()
             time.sleep(0.2)
-            
+            """
         else:
             CTRL.motor_forward()
+            CTRL.LED_all_off()
 
 CTRL.init()
 start()

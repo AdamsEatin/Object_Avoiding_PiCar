@@ -12,8 +12,8 @@ F_R_TRIG = 20
 F_R_ECHO = 21
 F_L_TRIG = 19
 F_L_ECHO = 26
-F_LED1 = 0
-F_LED2 = 0
+F_LED1 = 6
+F_LED2 = 13
 
 B_R_TRIG = 0
 B_R_ECHO = 0
